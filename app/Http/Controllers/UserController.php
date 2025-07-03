@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\view;
 class UserController extends Controller
 {
     function getUser(){
@@ -19,7 +19,19 @@ class UserController extends Controller
         return view('getuser',['name'=>$name,'users'=>$user]);
     }
     function adminLogin(){
-        return view('admin.adminLogin');
+        // if (view :: exists('admin.adminSignin')){
+        //      return view('admin.adminSignin');    
+
+        // }else{
+        //     echo "No file found";
+        // }
+         if (view :: exists('admin.adminSignin')){
+             return view('admin.adminSignin');    
+
+        }else{
+            echo "No file found";
+        }
+       
     }
 
     function addUser(Request $request){
