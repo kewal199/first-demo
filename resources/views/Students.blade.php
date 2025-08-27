@@ -6,11 +6,11 @@
     <td>contact</td>
 
 </tr>
-@foreach($users as $user)
+@foreach($students as $student)
 <tr>
-    <td>{{$user->name}}</td>
-    <td>{{$user->email}}</td>
-    <td>{{$user->contact}}</td>
+    <td>{{$student->name}}</td>
+    <td>{{$student->email}}</td>
+    <td>{{$student->contact}}</td>
 </tr>
 @endforeach
 </table>
