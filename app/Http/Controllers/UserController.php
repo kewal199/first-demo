@@ -3,81 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\view;
 use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
-    function getUser(){
-        return view('user');
+    public function viewData(){
+        $users= DB::Select('Select * from users');
+        return view('viewData',['users'=>$users]);
     }
-    function aboutUser(){
-        return "This is about section";
-    }
-    function getUserName(){
-        // return "User Name is ".$name;
-        $name="kewal";
-        $user=['kewal','Anup','prem'];
-        return view('getuser',['name'=>$name,'users'=>$user]);
-    }
-    function adminLogin(){
-        // if (view :: exists('admin.adminSignin')){
-        //      return view('admin.adminSignin');    
 
-        // }else{
-        //     echo "No file found";
-        // }
-         if (view :: exists('admin.adminSignin')){
-             return view('admin.adminSignin');    
+    public function insertData(Request $request)
+    {
+         $request->validate([
+        'username' => 'required|string|max:255',
+        'email'    => 'required|email|unique:users,email',
+        'contact'  => 'required|digits:10',
+    ]);
 
-        }else{
-            echo "No file found";
+    $query = DB::table('users')->insert([
+        'name'    => $request->username,
+        'email'   => $request->email,
+        'contact' => $request->contact,
+    ]);
+
+        if ($query) {
+             return redirect()->route('view-user.get')->with('success', 'Data inserted successfully!');
+        } else {
+            return "Something went wrong.";
         }
-       
     }
 
-    function addUser(Request $request){
-       echo $request->username;
-       echo "<br>";
-       echo $request->email;
-       echo "<br>";
-       echo $request->city;
-     
+    public function deleteRow($id)
+    {
+        $query = DB::table('users')->where('id', $id)->delete();
+
+        if ($query) {
+            return redirect()->route('view-user.get')->with('success', 'Data deleted successfully!');
+        } else {
+            return redirect()->route('view-user.get')->with('error', 'Something went wrong.');
+        }
     }
-     function addUser2(Request $request){
-        echo $request->city;
-        echo "<br>";
-        echo $request->age;
-        echo"<br>";
-        echo $request->gender;
-        echo"<br>";
-        print_r($request->skill);
 
-     }
-
-     function home_user(){
-      $name="kewal";
-      $users=['kewal','Anup','prem'];
-        return view('home-user',['users'=>$users,'name'=>$name]);
-
-     }
-
-     function userform(Request $request){
-
+    public function updateData(Request $request,$id){
         $request->validate([
-            'name'=>'required | min:3 | max:8 | uppercase',
-            'email'=>'required | email',
-            'contact'=>'required | min:10 | max:10'
-        ],[
-            'name.required'=>"Name should be not Null OR Empty",
-            'name.min'=>"Name Having minimum 3 char",
-            'name.uppercase'=>"Name should be in uppercase  always"
+            'username' =>'required|string|max:250',
+            'email'    =>'required|email',
+            'contact'  =>'required|digits:10'
         ]);
-        return $request;
+        $query = DB::table('users')->where('id',$id)
+                                   ->update([
+                                       'name' =>$request->username,
+                                       'email'    =>$request->email,
+                                       'contact'  =>$request->contact     
+                                   ]);
+           if($query || $query === 0){
 
-     }
+            return redirect()->route('view-user.get')->with('success','Data updated Successfully');
+           }else{
+            return "somthing went wrong";
+           }                        
+    }
 
-     function users(){
-        $user= DB::Select('select * from users');
-        return view('user',['users'=>$user]);
-     }
 }
