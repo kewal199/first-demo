@@ -41,7 +41,8 @@
               <div class="d-grid">
                 <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
               </div>
-            </form>
+            </form><br>
+           <center> <a href="{{route('view-user.get')}}">View User list</a></center>
           </div>
         </div>
       </div>

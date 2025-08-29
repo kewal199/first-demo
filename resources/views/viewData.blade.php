@@ -20,6 +20,7 @@
     {{ session('success') }}
   </div>
 @endif
+      <a href="{{route('user-form')}}"> <button class="btn btn-primary">Add User</button></a><br><br>
         <table class="table table-striped table-bordered table-hover align-middle">
           <thead class="table-dark">
             <tr>
@@ -96,6 +97,16 @@
       </div>
     </div>
   </div>
+  <script>
+    // Success message auto-hide after 3 sec
+    setTimeout(function() {
+        let success = document.getElementById('successMessage');
+        if (success) {
+            success.style.display = 'none';
+        }
+    }, 3000); // 3000ms = 3 seconds
+</script>
+
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

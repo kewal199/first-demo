@@ -14,5 +14,5 @@ Route::get('/view-user', [UserController::class, 'viewData'])->name('view-user.g
 Route::post('/update-user/{id}',[UserController::Class,'updateData'])->name('update-user');
 Route::post('/delete-row/{id}', [UserController::class, 'deleteRow'])->name('delete-row'); 
 
-Route::view('/user-form','user');
+Route::view('/user-form','user')->name('user-form');
 Route::post('/insert-data', [UserController::class,'insertData'])->name('insert-data');
